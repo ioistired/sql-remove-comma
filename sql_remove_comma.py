@@ -5,9 +5,12 @@ import sqlparse
 def enumerate_reversed(seq):
 	return zip(reversed(range(len(seq))), reversed(seq))
 
-def remove_trailing_comma(stmt):
+def remove_trailing_commas(stmt):
 	for outer_tok in stmt.tokens:
-		if not isinstance(outer_tok, sqlparse.sql.IdentifierList):
+		if isinstance(outer_tok, sqlparse.sql.Function):
+			remove_trailing_commas(outer_tok)
+			continue
+		if not isinstance(outer_tok, (sqlparse.sql.IdentifierList, sqlparse.sql.Parenthesis)):
 			continue
 
 		for i, tok in enumerate_reversed(outer_tok.tokens):
@@ -33,7 +36,7 @@ def lines_to_statements(it):
 def main():
 	import sys
 	for stmt in lines_to_statements(sys.stdin):
-		remove_trailing_comma(stmt)
+		remove_trailing_commas(stmt)
 		print(stmt)
 
 if __name__ == '__main__':

@@ -1,0 +1,7 @@
+/*.egg-info/
+/.eggs/
+/build/
+/dist/
+.venv/
+venv/
+__pycache__/

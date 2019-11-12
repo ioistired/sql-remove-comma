@@ -4,6 +4,7 @@ import setuptools
 
 setuptools.setup(
 	name='sql-remove-comma',
+	description='remove illegal trailing commas from your SQL code',
 	use_scm_version=True,
 	author='Io Mintz',
 	author_email='io@mintz.cc',

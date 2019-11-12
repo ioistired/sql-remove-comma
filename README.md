@@ -7,4 +7,4 @@ This makes diffs easier.
 
 ## License
 
-AGPLv3. See the LICENSE.md file in this repository for details.
+BSD 2-clause + Patent. See the LICENSE file in this repository for details.

@@ -13,7 +13,7 @@ def remove_trailing_comma(stmt):
 		for i, tok in enumerate_reversed(outer_tok.tokens):
 			if tok.ttype is sqlparse.tokens.Token.Punctuation and tok.value == ',':
 				del outer_tok.tokens[i]
-				return
+				break
 
 def lines_to_statements(it):
 	import io

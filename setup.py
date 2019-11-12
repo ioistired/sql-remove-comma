@@ -14,4 +14,9 @@ setuptools.setup(
 	py_modules=['sql_remove_comma'],
 	setup_requires=['setuptools_scm'],
 	install_requires=['sqlparse>=0.3.0,<0.4.0'],
+	entry_points={
+		'console_scripts': [
+			'sql-remove-comma = sql_remove_comma:main',
+		],
+	},
 )

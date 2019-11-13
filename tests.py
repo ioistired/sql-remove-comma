@@ -20,36 +20,9 @@ def test_create_table():
 	assert str(remove_trailing_commas(stmt)) == 'create table foo (x integer not null, y text, primary key (x, y))'
 
 def test_multiple_select():
-	stmt = sqlparse.parse(textwrap.dedent("""
-			SELECT
-				0 AS sort_order,
-				x,
-				y,
-				z,
-			FROM tab1
-		UNION ALL
-			SELECT
-				1 AS sort_order,
-				x,
-				y,
-				z,
-			FROM tab2
-	"""))[0]
-	assert str(stmt) == textwrap.dedent("""
-			SELECT
-				0 AS sort_order,
-				x,
-				y,
-				z
-			FROM tab1
-		UNION ALL
-			SELECT
-				1 AS sort_order
-				x,
-				y,
-				z
-			FROM tab2
-	""")
+	stmt = sqlparse.parse('SELECT 0 AS a, b, c, FROM tab1 UNION ALL SELECT 1 AS a, b, c, FROM tab2')[0]
+	assert str(remove_trailing_commas(stmt)) == \
+		'SELECT 0 AS a, b, c FROM tab1 UNION ALL SELECT 1 AS a, b, c FROM tab2'
 
 def test_nested_func():
 	stmt = sqlparse.parse('SELECT foo(bar(x, y, z,),)')[0]

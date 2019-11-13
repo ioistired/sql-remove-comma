@@ -5,8 +5,9 @@ python:
   - 3.6
   - 3.7
   - 3.8
-script:
+install:
   - pip install .[test]
+script:
   - pytest tests.py --cov sql_remove_comma --cov-report term-missing --cov-branch
 after_script:
   - if [[ "$TRAVIS_PYTHON_VERSION" == 3.6* ]]; then pip install coveralls; coveralls; fi

@@ -43,17 +43,12 @@ def fix_extraneous_identifierlist(stmt):
 		return
 
 	_, par = func.token_next(0, skip_cm=True)
-	if par is None:
-		return
 
 	for i, tok in enumerate(par.tokens):
 		if isinstance(tok, sqlparse.sql.IdentifierList):
 			par.tokens[i:i+1] = tok.tokens
 
 def find_createtable(stmt):
-	if not isinstance(stmt, sqlparse.sql.Statement):
-		return False
-
 	tok = stmt.token_first(skip_cm=True)
 	if tok is None:
 		return

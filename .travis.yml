@@ -1,13 +1,12 @@
 dist: bionic
 language: python
 python:
-  - 3.4
   - 3.5
   - 3.6
   - 3.7
   - 3.8
 script:
-  - pip install coveralls pytest pytest-cov
+  - pip install .[test]
   - pytest tests.py --cov sql_remove_comma --cov-report term-missing --cov-branch
 after_script:
-  - if [[ "$TRAVIS_PYTHON_VERSION" == 3.6* ]]; then coveralls; fi
+  - if [[ "$TRAVIS_PYTHON_VERSION" == 3.6* ]]; then pip install coveralls; coveralls; fi

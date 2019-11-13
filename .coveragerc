@@ -1,0 +1,3 @@
+[run]
+omit =
+	sql_remove_comma/__main__.py

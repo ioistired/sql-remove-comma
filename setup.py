@@ -11,7 +11,7 @@ setuptools.setup(
 	long_description=open('README.md').read(),
 	long_description_content_type='text/markdown',
 	license='BSD-2-Clause-Patent',
-	py_modules=['sql_remove_comma'],
+	packages=['sql_remove_comma'],
 	setup_requires=['setuptools_scm'],
 	install_requires=['sqlparse>=0.3.0,<0.4.0'],
 	extras_require={
@@ -22,7 +22,7 @@ setuptools.setup(
 	},
 	entry_points={
 		'console_scripts': [
-			'sql-remove-comma = sql_remove_comma:main',
+			'sql-remove-comma = sql_remove_comma.__main__:main',
 		],
 	},
 	classifiers=[

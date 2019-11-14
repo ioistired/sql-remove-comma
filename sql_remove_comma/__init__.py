@@ -5,7 +5,7 @@ def enumerate_reversed(seq):
 	return zip(reversed(range(len(seq))), reversed(seq))
 
 def is_comma(tok):
-	return tok.ttype is sqlparse.tokens.Token.Punctuation and tok.value == ','
+	return tok is not None and tok.ttype is sqlparse.tokens.Token.Punctuation and tok.value == ','
 
 def remove_trailing_commas(stmt: sqlparse.sql.Statement) -> sqlparse.sql.Statement:
 	"""Remove trailing commas in place from the given statement.
@@ -20,6 +20,9 @@ def remove_trailing_commas(stmt: sqlparse.sql.Statement) -> sqlparse.sql.Stateme
 		):
 			_remove_trailing_comma(tok.parent)
 			seen.add(tok.parent)
+		elif tok.ttype is sqlparse.tokens.Token.Keyword.CTE:
+			_remove_trailing_comma_from_cte(tok)
+			seen.add(tok.parent)
 
 	return stmt
 
@@ -29,6 +32,18 @@ def _remove_trailing_comma(tok):
 		if is_trailing_comma(i, tok):
 			del outer_tok.tokens[i]
 			return
+
+def _remove_trailing_comma_from_cte(tok):
+	parent = tok.parent
+	i = parent.token_index(tok)
+	while not isinstance(tok, sqlparse.sql.IdentifierList):
+		i, tok = parent.token_next(i, skip_cm=True)
+		if i is None:
+			return
+
+	i, maybe_comma = parent.token_next(i, skip_cm=True)
+	if is_comma(maybe_comma):
+		del parent.tokens[i]
 
 def fix_extraneous_identifierlist(stmt):
 	"""remove extraneous identifier lists from a create table statement (workaround for #521)"""
